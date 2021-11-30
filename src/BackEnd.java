@@ -26,59 +26,62 @@ public class BackEnd {
         }else if (p2Score >= 100){
             return player2Win;
         }
-        return gameOver;
+        else {
+            return gameOver;
+        }
+
     }
 
     // Ska returnera namnet på den spelaren i tur utifrån värdet på currentplayer
     public String currentPlayerName() {
-        if (currentPlayer == 2 && roundCounter >= 3) {
-            currentPlayer = 1;
+        if (this.currentPlayer == 1 ) {
             return player1;
         }
-        else {
-            currentPlayer = 2;
+        else if (this.currentPlayer == 2){
             return player2;
         }
     }
 
     //Sätter this.currentPlayer till 1 eller 2 baserat på slumpen.
     public void randomStarter(){
-        this.currentPlayer = (int) (Math.random() * 2);
+        int [] nummer = {1,2};
+        int rand = (int) (Math.random() * nummer.length );
+        this.currentPlayer = nummer[rand];
     }
 
     //Returnerar en sträng med spelare1:s namn följt av "Score: " samt spelare1:s poäng
     public String player1Score(){
-        String playersStats1 = player1 + " score " + p1Score;
-
-        return playersStats1;
+        return player1 + " score " + p1Score;
 
     }
     //Returnerar en sträng med spelare2:s namn följt av "Score: " samt spelare2:s poäng
     public String player2Score(){
-        String playersStats2 = player2 + " score " + p2Score;
 
-        return playersStats2;
+        return player2 + " score " + p2Score;
     }
 
     //Ger this.Dice ett värde mellan 1 och 20, samt ökar this.roundCounter med 1;
     public void throwDice(){
-       this.dice = (int) (Math.random() * 20);
-       this.roundCounter++;
+        int [] nummer = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+        int rand = (int) (Math.random() * nummer.length);
+       this.dice = nummer[rand];
+       this.roundCounter = this.roundCounter + 1;
     }
     // Lägger till värdet på this.dice till den aktuelle spelaren poäng
     // Nollställer därefter this.dice och this.roundCounter
     //Kollar sedan om någon av spelarna har nått 100 poäng och om så är fallet sätts gameOver till true;
     public void addScore(){
-        if(currentPlayer == 1){
-            p1Score  = this.dice + p1Score;
+        if(this.currentPlayer == 1){
+            this.p1Score  = this.dice + p1Score;
+            this.currentPlayer = 2;
         }
-        else{
-            p2Score  = this.dice + p2Score;
+        else if (this.currentPlayer == 2){
+            this.p2Score  = this.dice + p2Score;
+            this.currentPlayer = 1;
         }
 
         if(p1Score >= 100 || p2Score >= 100){
-            gameOver = true;
-
+            this.gameOver = true;
         }
         this.dice = 0;
         this.roundCounter = 0;
@@ -101,8 +104,15 @@ public class BackEnd {
             int reply = JOptionPane.showConfirmDialog(null, "Roll again?" , this.player1, JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.NO_OPTION) {
                 addScore();
-            }else {return;}
-        } else{
+            }
+        } else if(this.roundCounter < 3 && currentPlayer == 2) {
+            //String dialogTitle = this.currentPlayer == 1 ? this.player1 : this.player2;
+            int reply = JOptionPane.showConfirmDialog(null, "Roll again?", this.player2, JOptionPane.YES_NO_OPTION);
+            if (reply == JOptionPane.NO_OPTION) {
+                addScore();
+            }
+        }
+        else {
             addScore();
         }
     }
