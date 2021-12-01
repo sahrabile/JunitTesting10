@@ -11,22 +11,21 @@ public class BackEnd {
     private boolean gameOver = false;  //Sätts till true när någon spelare vinner
 
     //Det finns inget skäl att ändra i konstruktorn eller i instansvariablerna
-    public BackEnd (){
-        this.player1="";
-        this.player2="";
+    public BackEnd() {
+        this.player1 = "";
+        this.player2 = "";
     }
 
     //Ska returnera en sträng: "And the Winner is " samt namnet på den spelare som har högst poäng
-    public String getWinner(){
+    public String getWinner() {
         String player1Win = "And the Winner is " + player1;
         String player2Win = "And the Winner is " + player2;
         String gameOver = "No one win!";
-        if(p1Score >= 100){
+        if (p1Score >= 100) {
             return player1Win;
-        }else if (p2Score >= 100){
+        } else if (p2Score >= 100) {
             return player2Win;
-        }
-        else {
+        } else {
             return gameOver;
         }
 
@@ -34,12 +33,12 @@ public class BackEnd {
 
     // Ska returnera namnet på den spelaren i tur utifrån värdet på currentplayer
     public String currentPlayerName() {
-        if (this.currentPlayer == 1 ) {
+        if (this.currentPlayer == 1) {
             return player1;
-        }
-        else if (this.currentPlayer == 2){
+        } else if (this.currentPlayer == 2) {
             return player2;
         }
+        return null;
     }
 
     //Sätter this.currentPlayer till 1 eller 2 baserat på slumpen.
@@ -134,4 +133,42 @@ public class BackEnd {
         return this.gameOver;
     }
 
+    public int getRoundCounter() {
+        return roundCounter; }
+
+    public void getP1Score(int score) {
+        p1Score = score; }
+    public void get2Score(int score) {
+        p2Score = score;
+
+    }
+
+    public void tempSetP1Score(int score) {
+        this.p1Score = score;
+    }
+    public void tempSetplayer1 (String player1){
+        this.player1 =player1;
+    }
+    public void tempSetplayer2 (String player2){
+        this.player2 = player2;
+    }
+
+    public void tempSetP2Score(int score) {
+        this.p2Score = score;
+    }
+    public void tempSetCurrentPlayer(int currentPlayer)
+    {this.currentPlayer = currentPlayer;
+    }
+    public void tempSetDice(int value) {
+        this.dice = value;
+    }
+    public int tempGetP1Score() {
+        return this.p1Score;
+    }
+    public int tempGetP2Score() {
+        return this.p2Score;
+    }
+    public boolean tempGetGameOver() {
+        return this.gameOver;
+    }
 }
