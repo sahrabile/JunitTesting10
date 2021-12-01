@@ -63,8 +63,8 @@ public class BackEnd {
     public void throwDice(){
         int [] nummer = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
         int rand = (int) (Math.random() * nummer.length);
-       this.dice = nummer[rand];
-       this.roundCounter = this.roundCounter + 1;
+        this.dice = nummer[rand];
+        this.roundCounter = this.roundCounter + 1;
     }
     // Lägger till värdet på this.dice till den aktuelle spelaren poäng
     // Nollställer därefter this.dice och this.roundCounter
@@ -99,7 +99,7 @@ public class BackEnd {
     }
 
     public void askToKeep() {
-        if (this.roundCounter <3) {
+        if (this.roundCounter <3 && currentPlayer == 1) {
             int reply = JOptionPane.showConfirmDialog(null, "Roll again?" , this.player1, JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.NO_OPTION) {
                 addScore();
@@ -127,14 +127,17 @@ public class BackEnd {
     }
     public int getDice(){
         return this.dice;
-
     }
     public boolean gameOver(){
         return this.gameOver;
     }
 
     public int getRoundCounter() {
-        return roundCounter; }
+        return roundCounter;
+    }
+    public void setRoundCounter(int roundCounter){
+        this.roundCounter = roundCounter;
+    }
 
     public void getP1Score(int score) {
         p1Score = score; }
@@ -170,5 +173,9 @@ public class BackEnd {
     }
     public boolean tempGetGameOver() {
         return this.gameOver;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
     }
 }

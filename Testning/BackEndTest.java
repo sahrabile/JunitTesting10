@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -113,7 +114,6 @@ class BackEndTest {
     void addScoreP2_NoWin() {
         backEnd.tempSetP1Score(50);
         backEnd.tempSetP2Score(50);
-
         backEnd.tempSetCurrentPlayer(2);
         backEnd.tempSetDice(49);
         backEnd.addScore();
@@ -135,6 +135,9 @@ class BackEndTest {
 
     @Test
     void askToKeep() {
+        backEnd.askToKeep();
+        assertTrue(backEnd.getRoundCounter() <= 3 && backEnd.getRoundCounter() >= 0);
+        assertTrue(backEnd.getCurrentPlayer() <= 2 && backEnd.getCurrentPlayer() >= 0);
     }
 
     @Test
@@ -156,7 +159,7 @@ class BackEndTest {
         backEnd.tempSetplayer1("Niklas");
         backEnd.tempSetplayer2("Edwin");
         backEnd.randomStarter();
-        if(backEnd.getCurrentPlayer() ==1){
+        if(backEnd.getCurrentPlayer() == 1){
 
         }
 
@@ -164,9 +167,17 @@ class BackEndTest {
 
     @Test
     void getDice() {
+        backEnd.throwDice();
+        assertTrue(backEnd.getDice() <= 20 && backEnd.getDice() >= 1);
+        backEnd.setRoundCounter(2);
+        assertEquals(2, backEnd.getRoundCounter());
     }
 
     @Test
     void gameOver() {
+        backEnd.gameOver();
+        assertFalse(backEnd.tempGetGameOver());
+        backEnd.setGameOver(true);
+        assertTrue(backEnd.tempGetGameOver());
     }
 }
