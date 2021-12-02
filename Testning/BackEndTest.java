@@ -72,11 +72,8 @@ class BackEndTest {
     }
     @Test
     void player1ScoreWhenScoreIs22Test() {
-        //input
         backEnd.tempSetplayer1("Niklas");
-        //when
         backEnd.tempSetP1Score(22);
-        //result
         assertEquals("Niklas score 22",backEnd.player1Score());
     }
     @Test
@@ -168,6 +165,7 @@ class BackEndTest {
         backEnd.throwDice();
         assertTrue(backEnd.getDice() <= 20 && backEnd.getDice() >= 1);
         assertTrue(backEnd.getRoundCounter() <= 3 && backEnd.getRoundCounter() >= 0);
+        System.out.println(backEnd.getDice());
     }
 
     @Test
