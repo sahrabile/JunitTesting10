@@ -1,51 +1,58 @@
+import org.junit.Assert;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Nested;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BackEndTest {
     private BackEnd backEnd = new BackEnd();
-    //UserManager manager = Mockito.mock(Usemanager.class);
+
 
     @Test
     @DisplayName("Ska testa att vinnaren är Niklas")
-    void getWinnerplayer1Test() {
+    void getWinnerPlayer1Test() {
         backEnd.tempSetplayer1("Niklas");
         backEnd.tempSetP1Score(1001);
         assertEquals("And the Winner is Niklas", backEnd.getWinner());
     }
+
     @Test
-    void getWinnerPlayer2Test(){
+    void getWinnerPlayer2Test() {
         backEnd.tempSetplayer2("Henning");
         backEnd.tempSetP2Score(1002);
         assertEquals("And the Winner is Henning", backEnd.getWinner());
     }
+
     @Test
-    void getWinnerWhenNoOneIsWinnerTest(){
+    void getWinnerWhenNoOneIsWinnerTest() {
         backEnd.tempSetplayer1("Niklas");
         backEnd.tempSetplayer2("Henning");
         backEnd.tempSetP1Score(0);
         backEnd.tempSetP2Score(0);
-        assertEquals("No one win!",backEnd.getWinner());
+        assertEquals("No one win!", backEnd.getWinner());
     }
+
     @Test
-    void getWinnerWhenPlayer1AndPlayer2ON100Test(){
+    void getWinnerWhenPlayer1AndPlayer2ON100Test() {
         backEnd.tempSetplayer1("Niklas");
         backEnd.tempSetplayer2("Henning");
         backEnd.tempSetP1Score(100);
         backEnd.tempSetP2Score(0);
-        assertEquals("And the Winner is Niklas",backEnd.getWinner());
+        assertEquals("And the Winner is Niklas", backEnd.getWinner());
         backEnd.tempSetP1Score(0);
         backEnd.tempSetP2Score(100);
-        assertEquals( "And the Winner is Henning",backEnd.getWinner());
+        assertEquals("And the Winner is Henning", backEnd.getWinner());
     }
+
     @Test
-    void getWinnerCalledTwiceWinnerTest(){
+    void getWinnerCalledTwiceWinnerTest() {
         backEnd.tempSetplayer1("Niklas");
         backEnd.tempSetP1Score(100);
-        assertEquals("And the Winner is Niklas",backEnd.getWinner());
-        assertEquals("And the Winner is Niklas",backEnd.getWinner());
+        assertEquals("And the Winner is Niklas", backEnd.getWinner());
+        assertEquals("And the Winner is Niklas", backEnd.getWinner());
     }
 
     @Test
@@ -53,47 +60,44 @@ class BackEndTest {
         backEnd.tempSetplayer1("Niklas");
         backEnd.tempSetplayer2("Henning");
         backEnd.tempSetCurrentPlayer(1);
-        assertEquals("Niklas",  backEnd.currentPlayerName());
+        assertEquals("Niklas", backEnd.currentPlayerName());
         backEnd.tempSetCurrentPlayer(2);
         assertEquals("Henning", backEnd.currentPlayerName());
+        backEnd.tempSetplayer1(null);
+        backEnd.tempSetCurrentPlayer(1);
+
+        assertEquals(null, backEnd.currentPlayerName());
+    }
+
+    @RepeatedTest(20)
+    void randomStarterTest() {
+        backEnd.randomStarter();
+        assertTrue(backEnd.getCurrentPlayer() > 0 || backEnd.getCurrentPlayer() < 2);
+        System.out.println(backEnd.getCurrentPlayer());
+
     }
 
     @Test
-    void randomStarterTest() {
-        boolean theyAreNotTheSame = true;
-        backEnd.randomStarter();
-        int firstPlayer = backEnd.getCurrentPlayer();
-        for(int i = 0; i<100; i++){
-            backEnd.randomStarter();
-            if(firstPlayer != backEnd.getCurrentPlayer()){}
-            theyAreNotTheSame = true;
-            break;
-        }
-    }
-    @Test
     void player1ScoreWhenScoreIs22Test() {
-        //input
         backEnd.tempSetplayer1("Niklas");
-        //when
         backEnd.tempSetP1Score(22);
-        //result
-        assertEquals("Niklas score 22",backEnd.player1Score());
+        assertEquals("Niklas score 22", backEnd.player1Score());
     }
+
     @Test
     void player2ScoreWhenScoreIs35Test() {
         backEnd.tempSetplayer2("Henning");
         backEnd.tempSetP2Score(35);
-        assertEquals("Henning score 35",backEnd.player2Score());
+        assertEquals("Henning score 35", backEnd.player2Score());
     }
-
 
     @Test
     void throwDiceTest() {
-        for(int i =0; i<100;i++){
+        for (int i = 0; i < 100; i++) {
             backEnd.throwDice();
             int numberOfDice = backEnd.getDice();
             System.out.println(numberOfDice);
-            assertTrue(numberOfDice >=1 &&numberOfDice <= 20);
+            assertTrue(numberOfDice >= 1 && numberOfDice <= 20);
         }
     }
 
@@ -108,8 +112,8 @@ class BackEndTest {
         assertEquals(50, backEnd.tempGetP2Score());
         assertFalse(backEnd.tempGetGameOver());
 
-
     }
+
     @Test
     void addScoreP2_NoWin() {
         backEnd.tempSetP1Score(50);
@@ -125,16 +129,15 @@ class BackEndTest {
     @Test
     void startGameTest() {
         backEnd.startGame("Niklas", "Edwin");
-        assertEquals("Niklas",backEnd.getPlayer1());
-        assertEquals("Edwin",backEnd.getPlayer2());
-        assertEquals( "Niklas score 0",backEnd.player1Score());
-        assertEquals("Edwin score 0",backEnd.player2Score());
-        assertEquals(1,backEnd.getCurrentPlayer());
-
+        assertEquals("Niklas", backEnd.getPlayer1());
+        assertEquals("Edwin", backEnd.getPlayer2());
+        assertEquals("Niklas score 0", backEnd.player1Score());
+        assertEquals("Edwin score 0", backEnd.player2Score());
+        assertEquals(1, backEnd.getCurrentPlayer());
     }
 
     @Test
-    void askToKeep() {
+    void askToKeepRolledNumber() {
         backEnd.askToKeep();
         assertTrue(backEnd.getRoundCounter() <= 3 && backEnd.getRoundCounter() >= 0);
         assertTrue(backEnd.getCurrentPlayer() <= 2 && backEnd.getCurrentPlayer() >= 0);
@@ -142,8 +145,8 @@ class BackEndTest {
 
     @Test
     void getPlayer1() {
-        backEnd.startGame("Niklas","Edwin");
-        assertEquals("Niklas",backEnd.getPlayer1());
+        backEnd.startGame("Niklas", "Edwin");
+        assertEquals("Niklas", backEnd.getPlayer1());
 
 
     }
@@ -151,7 +154,7 @@ class BackEndTest {
     @Test
     void getPlayer2() {
         backEnd.startGame("Niklas", "Edwin");
-        assertEquals("Edwin",backEnd.getPlayer2());
+        assertEquals("Edwin", backEnd.getPlayer2());
     }
 
     @Test
@@ -163,18 +166,47 @@ class BackEndTest {
 
     }
 
+    // testar att Dice metoden slumpar värdet
     @Test
+    @RepeatedTest(20)
     void getDice() {
         backEnd.throwDice();
         assertTrue(backEnd.getDice() <= 20 && backEnd.getDice() >= 1);
         assertTrue(backEnd.getRoundCounter() <= 3 && backEnd.getRoundCounter() >= 0);
+        System.out.println(backEnd.getDice());
     }
 
     @Test
-    void gameOver() {
+    void testGameOver() {
+        boolean gameOver;
+
         backEnd.gameOver();
         assertFalse(backEnd.tempGetGameOver());
         backEnd.setGameOver(true);
         assertTrue(backEnd.tempGetGameOver());
+
+        backEnd.gameOver();
+        backEnd.tempSetP1Score(100);
+        backEnd.tempSetP2Score(50);
+        backEnd.addScore();
+        gameOver = backEnd.gameOver();
+        System.out.println(gameOver);
+        assertTrue(gameOver);
+
+        backEnd.gameOver();
+        backEnd.tempSetP1Score(50);
+        backEnd.tempSetP2Score(100);
+        backEnd.addScore();
+        gameOver = backEnd.gameOver();
+        System.out.println(gameOver);
+        assertTrue(gameOver);
+
+        backEnd.tempSetP1Score(99);
+        backEnd.tempSetP2Score(99);
+        backEnd.addScore();
+        gameOver = backEnd.gameOver();
+        System.out.println(gameOver);
+        assertTrue(gameOver);
+
     }
 }
